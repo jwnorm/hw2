@@ -43,6 +43,8 @@ for this homework assignment in your GitHub account. Periodically push your comm
 to GitHub. When done with the assignment, paste in the URL of your GitHub project
 so that I can go look at it.
 
+>https://github.com/jwnorm/hw2
+
 ## Step 3 - Set working directory and explore data folder
 
 Set the working directory or create an R Studio project in the current folder. You'll notice that there is a folder named **data**.
@@ -88,8 +90,8 @@ You should read the **county.csv** file into a data frame named county_df and
 **county_MI.csv** into a data frame named county_MI.
 
 ```{r read_countydata}
-# county_df <- ???
-# county_MI <- ???
+county_df <- read.csv(file = "data/county.csv")
+county_MI <- read.csv(file = "data/county_MI.csv")
 ```
 
 Check the structure of each data.frame and use the `summary` function to begin
@@ -97,8 +99,11 @@ exploring the data. Are there any NA values? What
 differences do you notice between the structure of the two data frames.
 
 ```{r}
-
+summary(county_df)
+summary(county_MI)
 ```
+
+>Neither of the two data frames contain NA values. The data frame county_df contains more observations than county_MI. This is because it contains data for all 50 states. There is one more variable in county_MI df. It contains peninsula to determine which part of Michigan the county is located. Additonally, county_df is sorted by State then County whereas county_MI is sorted by County then State.
 
 The county_MI data frame contains data for Michigan only and includes an
 peninsula field. See **census_data_prep.R** to see how this field was
@@ -115,7 +120,10 @@ income for the entire US.
 Write a short paragraph describing the distribution of median incomes.
 
 ```{r}
-# ggplot(???) + geom_histogram(???)
+ggplot(county_df, aes(Income)) + geom_histogram()
+ggplot(county_df, aes("", Income)) + geom_boxplot() +labs(x = "")
+ggplot(county_df, aes(Income)) + geom_density()
+ggplot(county_df, aes("", Income)) + geom_violin() +labs(x = "")
 ```
 
 ### Problem 3 - Histogram of total population
@@ -123,7 +131,7 @@ Write a short paragraph describing the distribution of median incomes.
 Create a histogram of total population for counties in the US.
 
 ```{r histo_totpop}
-
+ggplot(county_df, aes(TotalPop)) + geom_histogram()
 ```
 
 Repeat the histogram about but make the following style changes to the plot.
@@ -134,16 +142,27 @@ Repeat the histogram about but make the following style changes to the plot.
 * Change the colors of the bars to something other than the default black
 
 ```{r histo_stylechanges}
+ggplot(county_df, aes(TotalPop)) + 
+  geom_histogram(fill = "steelblue", color = "black") + 
+  labs(title = "Distribution of Population for US Counties", 
+       x = "Total Population", y = "Number of Counties")
 
 ```
 
 **Hacker Extra** - Also create a kernel density plot overlaid on a histogram of
 Income. 
 
+```{r histo_density}
+ggplot(county_df, aes(Income)) + geom_histogram(binwidth = 5000, 
+                                                fill = "steelblue", color = "black") + geom_density(aes(y = 5000 * ..count..)) + labs(title = "Distribution of Income for US Counties", y = "Number of Counties")
+
+```
+
 Repeat the histogram but only for counties with less than 2.5 million people.
 
 ```{r histo_lt2.5m}
-
+ggplot(county_df[county_df$TotalPop<2500000,], aes(TotalPop)) + 
+  geom_histogram(fill = "steelblue", color = "black") + labs(title = "Distribution of Population for US Counties", x = "Total Population", y = "Number of Counties")
 ```
 
 
