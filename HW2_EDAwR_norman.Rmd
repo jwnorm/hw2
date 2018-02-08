@@ -153,8 +153,11 @@ ggplot(county_df, aes(TotalPop)) +
 Income. 
 
 ```{r histo_density}
-ggplot(county_df, aes(Income)) + geom_histogram(binwidth = 5000, 
-                                                fill = "steelblue", color = "black") + geom_density(aes(y = 5000 * ..count..)) + labs(title = "Distribution of Income for US Counties", y = "Number of Counties")
+ggplot(county_df, aes(Income)) + 
+  geom_histogram(binwidth = 5000, fill = "steelblue", color = "black") + 
+  geom_density(aes(y = 5000 * ..count..)) + 
+  labs(title = "Distribution of Income for US Counties", 
+       y = "Number of Counties")
 
 ```
 
@@ -162,7 +165,9 @@ Repeat the histogram but only for counties with less than 2.5 million people.
 
 ```{r histo_lt2.5m}
 ggplot(county_df[county_df$TotalPop<2500000,], aes(TotalPop)) + 
-  geom_histogram(fill = "steelblue", color = "black") + labs(title = "Distribution of Population for US Counties", x = "Total Population", y = "Number of Counties")
+  geom_histogram(fill = "steelblue", color = "black") + 
+  labs(title = "Distribution of Population for US Counties", 
+       x = "Total Population", y = "Number of Counties")
 ```
 
 
@@ -176,15 +181,40 @@ differ with respect to distribution of median income over the counties?
 
 
 ```{r bp_inc_by_peninsula}
-
+ggplot(county_MI, aes(x = peninsula, y = Income)) + 
+  geom_boxplot(fill = "steelblue") + 
+  labs(title = "Michigan County Income by Peninsula", 
+       x = "Peninsula")
 ```
 
 Create several more boxplots showing how the peninsulas compare with respect to
 some of the other variables. Summarize your findings in a few short paragraphs.
 
 ```{r more_boxplots}
+ggplot(county_MI, aes(peninsula, Unemployment)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Unemployment by Peninsula", x = "Peninsula")
 
+ggplot(county_MI, aes(peninsula, Poverty)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Poverty by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(peninsula, MeanCommute)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Mean Commute by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(peninsula, Office)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Office Jobs by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(peninsula, PrivateWork)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Private Work by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(peninsula, PublicWork)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Public Work by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(x = peninsula, y = White)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County White Population by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(x = peninsula, y = Black)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Black Population by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(x = peninsula, y = Hispanic)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Hispanic Population by Peninsula", x = "Peninsula")
+
+ggplot(county_MI, aes(peninsula, Native)) +geom_boxplot(fill = "steelblue") + labs(title = "Michigan County Native Americans by Peninsula", x = "Peninsula")
 ```
+
+>Even though it seems the LP has a higher median income than the UP, unemployment and poverty between the two peninsulas are quite similar. There is more variability in the LP, but that is due to the much larger population. 
+>It seems that people tend to commute longer in the LP than the UP, even though office jobs are roughly equal in each. There is much more private work in the LP than the UP, and vice versa for public work.
+>The demographics of the two peninsulas have some similarities and some differences. Both peninsulas are primarily white and have roughly the same amount if African Americans. The LP has considerably more people of Hispanic origin. The UP has a great deal more Native Americans than the LP.
 
 ### Problem 5 - How do regions of the country compare?
 
@@ -195,7 +225,9 @@ distribution of MeanCommute time. Make sure your graph has a title and good axis
 labels.
 
 ```{r faceted_histo}
-
+ggplot(county_df, aes(MeanCommute)) + geom_histogram() +
+  facet_grid(~Region) + labs(title = "US County Mean Commute Time by Region",
+                             x = "Mean Commute Time", y = "Number of Counties") 
 ```
 
 ### Problem 6 - Basic bar chart
@@ -204,7 +236,8 @@ Create a bar chart showing the number of counties by Region in the US. Make sure
 your graph has a title and good axis labels.
 
 ```{r bar_counties_by_region}
-
+ggplot(county_df, aes(Region)) + geom_bar(width = .5) + 
+  labs(title = "US Counties by Region", y = "Number of US Counties")
 ```
 
 ### Problem 7 - Basic scatter plots
@@ -213,17 +246,24 @@ Create a scatter plot using the Michigan only data frame comparing
 Income and MeanCommute.
 
 ```{r xy_inc_commute}
-
+ggplot(county_MI, aes(MeanCommute, Income)) + geom_point() + 
+  labs(title = "Michigan County Income by Mean Commute Time", 
+       x ="Mean Commute Time")
 ```
 
 Create a modified version of the above scatter plot in which the point color
 is mapped to peninsula.
 
 ```{r xy_inc_commute_peninsula}
-
+ggplot(county_MI, aes(MeanCommute, Income)) + 
+  geom_point(aes(color = peninsula)) + 
+  labs(title = "Michigan County Income by Mean Commute Time", 
+       x ="Mean Commute Time", color = "Peninsula")
 ```
 
 Your thoughts on the relationship between these variables?
+
+>The scatterplots above imply that the longer the mean commute time, the greater the median income for a given county. Judging by the dispersion of the points, the correlation is not that high.
 
 Now, create a few more scatter plots using variables of your choosing in which
 you facet by peninsula as well. How do the relationships compare across the
