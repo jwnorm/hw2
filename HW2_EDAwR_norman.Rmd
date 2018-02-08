@@ -270,16 +270,20 @@ you facet by peninsula as well. How do the relationships compare across the
 peninsulas?
 
 ```{r xy_faceted_peninsula}
-
+ggplot(county_MI, aes(Unemployment, Income)) + geom_point() + facet_grid(~peninsula)
+ggplot(county_MI, aes(Unemployment, Poverty)) + geom_point() + facet_grid(~peninsula)
+ggplot(county_MI, aes(SelfEmployed, Income)) + geom_point() + facet_grid(~peninsula)
 ```
 
+>The relationships chosen above seem to be the same for both the UP and LP. There is a negative relationship between unemployment and povertyas well as between self-employment and income. There is a positive relationship between unemployment and poverty. All of these hold true for both peninsulas. The faceting shows that the two peninsulas are similar in these three regards.
 
 Now use the full US data frame.
 
 Create a scatter plot of TotalPop by Income.
 
 ```{r xy_pop_inc}
-
+ggplot(county_df, aes(TotalPop, Income)) + geom_point() + 
+  labs(title="US County Income by Population", x = "Total Population")
 ```
 
 The widely varying values make this difficult to interpret in terms of looking
@@ -288,9 +292,53 @@ the plotted data itself to use a base 10 logarithmic scale (or transform).
 Write a short paragraph on why one might want to use a log scale or log
 transform of data when plotting.
 
+```{r xy_pop_log}
+ggplot(county_df, aes(log10(TotalPop), Income)) + geom_point() + labs(title="US County Income by Log of Population", x = "Log of Total Population")
+```
+
+
 ### Hacker Extra - More analysis
 
 Do some additional plotting to look for interesting patterns or relationships
 either in the full US dataset or the MI only dataset. In addition, try out
 some of ggplots additional features such as themes, axis formatting, gridline
 control, or others.
+
+
+```{r boxplot_tufte}
+library(ggthemes)
+ggplot(county_df, aes("",Unemployment)) + geom_tufteboxplot() +
+  facet_wrap(~Region) + labs(x = "") + theme_tufte()
+```
+
+>Interesting spin on the boxplot. Very clean and minimalistic.
+
+```{r ggplot_themes}
+ggplot(county_df, aes(Income)) + geom_histogram() + theme_tufte() + 
+  labs(title = "US Counties by Income", y = "Number of Counties")
+ggplot(county_df, aes(Income)) + geom_histogram() + theme_excel() +
+  labs(title = "US Counties by Income", y = "Number of Counties")
+ggplot(county_df, aes(Income)) + geom_histogram() + theme_wsj() +
+  labs(title = "US Counties by Income", y = "Number of Counties")
+ggplot(county_df, aes(Income)) + geom_histogram() + theme_economist() +
+  labs(title = "US Counties by Income", y = "Number of Counties")
+ggplot(county_df, aes(Income)) + geom_histogram() + theme_calc() +
+  labs(title = "US Counties by Income", y = "Number of Counties")
+```
+
+>I like Tufte's the best, but the LibreOffice one is nice too.
+
+```{r US_hispanic}
+ggplot(county_df, aes(Hispanic)) + geom_density() + 
+  facet_wrap(~Region) + labs(title = "Hispanic Population by Region")
+```
+
+>One would assume that the West would have the most Hispanic people due to the proximity to Mexico, or possibly the South because of Cuba and other islands. The fact that it is the Midwest and then the Northeast is surprising.
+
+```{r US_black_income}
+ggplot(county_df, aes(Black, Income)) + 
+  geom_point(aes(color = Region)) + geom_smooth(method = lm) + 
+  labs(title = "US County Income by Black Population")
+```
+
+>Unfortunately, this data indicates that counties that have a higher number of African American residents also have a lower median income. The South seems to have a big impact on this relationship.
