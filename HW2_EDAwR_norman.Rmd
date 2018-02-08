@@ -43,7 +43,7 @@ for this homework assignment in your GitHub account. Periodically push your comm
 to GitHub. When done with the assignment, paste in the URL of your GitHub project
 so that I can go look at it.
 
->https://github.com/jwnorm/hw2
+>Github repo: [hw2](https://github.com/jwnorm/hw2)
 
 ## Step 3 - Set working directory and explore data folder
 
@@ -103,7 +103,7 @@ summary(county_df)
 summary(county_MI)
 ```
 
->Neither of the two data frames contain NA values. The data frame county_df contains more observations than county_MI. This is because it contains data for all 50 states. There is one more variable in county_MI df. It contains peninsula to determine which part of Michigan the county is located. Additonally, county_df is sorted by State then County whereas county_MI is sorted by County then State.
+>Neither of the two data frames contain NA values. The data frame county_df contains more observations than county_MI. This is because it contains data for all 50 states. There is one more variable in county_MI than in county_df. It contains peninsula to determine which part of Michigan the county is located. Additonally, county_df is sorted by State then County whereas county_MI is sorted by County then State.
 
 The county_MI data frame contains data for Michigan only and includes an
 peninsula field. See **census_data_prep.R** to see how this field was
@@ -214,7 +214,7 @@ ggplot(county_MI, aes(peninsula, Native)) +geom_boxplot(fill = "steelblue") + la
 
 >Even though it seems the LP has a higher median income than the UP, unemployment and poverty between the two peninsulas are quite similar. There is more variability in the LP, but that is due to the much larger population. 
 >It seems that people tend to commute longer in the LP than the UP, even though office jobs are roughly equal in each. There is much more private work in the LP than the UP, and vice versa for public work.
->The demographics of the two peninsulas have some similarities and some differences. Both peninsulas are primarily white and have roughly the same amount if African Americans. The LP has considerably more people of Hispanic origin. The UP has a great deal more Native Americans than the LP.
+>The demographics of the two peninsulas have some similarities and some differences. Both peninsulas are primarily white and have roughly the same amount of African Americans. The LP has considerably more people of Hispanic origin. The UP has a great deal more Native Americans than the LP.
 
 ### Problem 5 - How do regions of the country compare?
 
@@ -275,7 +275,7 @@ ggplot(county_MI, aes(Unemployment, Poverty)) + geom_point() + facet_grid(~penin
 ggplot(county_MI, aes(SelfEmployed, Income)) + geom_point() + facet_grid(~peninsula)
 ```
 
->The relationships chosen above seem to be the same for both the UP and LP. There is a negative relationship between unemployment and povertyas well as between self-employment and income. There is a positive relationship between unemployment and poverty. All of these hold true for both peninsulas. The faceting shows that the two peninsulas are similar in these three regards.
+>The relationships chosen above seem to be the same for both the UP and LP. There is a negative relationship between unemployment and poverty as well as between self-employment and income. There is a positive relationship between unemployment and poverty. All of these hold true for both peninsulas. The faceting shows that the two peninsulas are similar in these three regards.
 
 Now use the full US data frame.
 
@@ -296,6 +296,7 @@ transform of data when plotting.
 ggplot(county_df, aes(log10(TotalPop), Income)) + geom_point() + labs(title="US County Income by Log of Population", x = "Log of Total Population")
 ```
 
+>Using log transforms when plotting data makes it easier to see relationships in the data. While a variable may not seemingly have a relationshp with another, a simple log transform could show a linear relationship. It can turn a random pattern or jumbled-up mess into something resembling a relationship, which can then be incorporated into a predictive model.
 
 ### Hacker Extra - More analysis
 
